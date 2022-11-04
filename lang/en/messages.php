@@ -70,5 +70,8 @@ return [
     'mistakesN' => 'Mistakes',
     'writeSomething' => 'Search',
     'submitAttachment' => 'Upload',
-
+    'lang' => [
+        'cs' => 'Czech',
+        'en' => 'English'
+    ]
 ];

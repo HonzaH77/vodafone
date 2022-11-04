@@ -1,0 +1,105 @@
+.vodafone_project-layout-all__title {
+    border-radius: 1rem;
+}
+
+.vodafone_project-component-project-filter__button--button-grey {
+    color: white;
+    border-color: grey;
+    background-color: grey;
+}
+
+.vodafone_project-component-project-table__link {
+    color: red;
+}
+
+.vodafone_project-component-project-table__button {
+    margin-bottom: 3%;
+}
+
+.vodafone_project-component-project-table__notification {
+    color: black;
+}
+
+.vodafone_project-layout-all__submit-button {
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border-color: grey;
+}
+
+.vodafone_project-layout-create__card {
+    border-radius: 1rem;
+}
+
+.vodafone_project-layout-create__title {
+    font-weight: bold;
+}
+
+.vodafone_project-component-create-form__submit-button {
+    color: white;
+    background-color: red;
+    border-color: grey;
+    font-weight: bold;
+}
+
+.vodafone_project-layout-edit__card {
+    border-radius: 1rem;
+}
+
+.vodafone_project-layout-edit__card-body {
+}
+
+.vodafone_project-layout-edit__title {
+    font-weight: bold;
+}
+
+.vodafone_project-component-edit-form__submit-button {
+    color: white;
+    background-color: red;
+    border-color: grey;
+    font-weight: bold;
+}
+
+.vodafone_project-layout-index__card {
+    border-radius: 1rem;
+}
+
+.vodafone_project-layout-index__title {
+    font-weight: bold;
+}
+
+.vodafone_project-layout-index__edit-button {
+    color: black;
+}
+
+.vodafone_project-layout-index__delete-button {
+    color: black;
+    font-weight: bold;
+}
+
+.vodafone_project-layout-index__submit-button {
+    color: white;
+    background-color: red;
+    border-color: grey;
+    font-weight: bold;
+}
+
+.vodafone_project-component-create-comments__card-footer {
+    background-color: #f8f9fa;
+}
+
+.vodafone_project-component-create-comments__form-text-area {
+    background: #fff;
+}
+
+.vodafone_project-component-create-comments__submit-button {
+    color: white;
+    background-color: red;
+    border-color: grey;
+}
+.vodafone_project-layout-all__new-project-button{
+    color: white;
+    background-color: red;
+    border-color: grey;
+    font-weight: bold;
+}

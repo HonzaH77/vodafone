@@ -23,7 +23,7 @@ class TaskFactory extends Factory
             'name' => fake()->realText(50),
             'type' => $type[rand(0, 1)],
             'state' => $state[rand(0, 3)],
-            'endDate' => fake()->date(),
+            'endDate' => fake()->dateTime,
         ];
     }
 }

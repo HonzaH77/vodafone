@@ -20,6 +20,7 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
     public function scopeFilter($query, array $filters)
     {
         if ($filters['search'] ?? false)

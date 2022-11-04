@@ -3,39 +3,110 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\Task;
 use App\Notifications\ProjectNotification;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Session;
+use function App\Helpers\attachmentRepository;
+use function App\Helpers\commentRepository;
+use function App\Helpers\projectRepository;
+use function App\Helpers\taskRepository;
 
 
 class ProjectController extends Controller
 {
-    public function index()
+
+    /**
+     * Funkce zobrazí veškeré informace k projektu s ID = $projectId.
+     *
+     * @param $projectId
+     * @return Application|Factory|View
+     */
+    public function index($projectId): Application|Factory|View
     {
-        return view('projects', [
-            'projects' => Project::latest()->filter(request(['search']))->paginate()
+        $project = projectRepository()->getProjectById($projectId);
+        $comment = commentRepository()->getCommentByProjectId($projectId);
+        $attachment = attachmentRepository()->getAttachmentByProjectId($projectId);
+        $task = taskRepository()->getTaskByProjectId($projectId);
+        return view('project.layout.index', ['project' => $project, 'comments' => $comment, 'attachments' => $attachment, 'tasks' => $task]);
+    }
+
+    /**
+     * Funkce zobrazí souhrné informace ke všem projektům podle zadané paginace.
+     *
+     * @return Application|Factory|View
+     */
+    public function all(): Application|Factory|View
+    {
+        $projects = projectRepository()->getAllProjects(request(['search']))->paginate(10);
+        $projectIDs = $projects->map(function ($project) {return $project->getId();});
+        $taskStatuses = taskRepository()->getTaskStatusAndTypeByProjectId($projectIDs->all());
+        return view('project.layout.all', [
+            'projects' => $projects,
+            'mistakes' => $this->getCountTaskStatuses($projects, $taskStatuses, 'mistake'),
+            'requirements' => $this->getCountTaskStatuses($projects, $taskStatuses, 'requirement'),
         ]);
     }
 
-    public function store()
+    /**
+     * Funkce ke každému projektu z $projects vrátí pole, které obsahuje projectID a počty stavů jednotlivých úkolů.
+     *
+     * @param $projects
+     * @param $tasks
+     * @param string $type
+     * @return mixed
+     */
+    public function getCountTaskStatuses($projects, $tasks, string $type)
     {
-        if (Auth::check())
-        {
-            $attributes = \request()->validate([
-                'name' => ['required', 'max:100', 'min:3'],
-                'description' => ['required', 'max:250'],
-            ]);
-            $project = Project::create(['user_id' => Auth::id()] + $attributes);
-            return redirect('/projects/' . $project->id);
-        }
-
-        return redirect('/login');
+        return $projects->map(function ($project) use ($type, $tasks) {
+            $projectsTasksStatus = $tasks->filter(function ($tasks) use ($project, $type) {
+                return $tasks->project_id == $project->getId() && $tasks->type == $type;
+            });
+            return [
+                'projectId' => $project->getId(),
+                'status' => [
+                    'new' => $projectsTasksStatus->filter(function ($task) {
+                        return $task->state == 'new';
+                    })->count(),
+                    'in process' => $projectsTasksStatus->filter(function ($task) {
+                        return $task->state == 'in process';
+                    })->count(),
+                    'denied' => $projectsTasksStatus->filter(function ($task) {
+                        return $task->state == 'denied';
+                    })->count(),
+                    'done' => $projectsTasksStatus->filter(function ($task) {
+                        return $task->state == 'done';
+                    })->count(),
+                ]];
+        })->collect();
     }
 
-    public function edit(Project $project)
+    /**
+     * Funkce zajišťuje vytvoření nového projektu.
+     *
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function store(): Application|RedirectResponse|Redirector
+    {
+        $attributes = \request()->validate([
+            'name' => ['required', 'max:100', 'min:3'],
+            'description' => ['required', 'max:250'],
+        ]);
+        $attributes['user_id'] = Auth::id();
+        projectRepository()->createProject($attributes);
+        return redirect('/projects');
+    }
+
+    /**
+     * Funkce zajituje úpravu projektu $project.
+     *
+     * @param Project $project
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function edit(Project $project): Application|RedirectResponse|Redirector
     {
         if (Auth::id() == $project->user_id)
         {
@@ -45,57 +116,27 @@ class ProjectController extends Controller
             ]);
 
             $notifiedUsers = $project->notification();
-
             $notification = new ProjectNotification($project);
             foreach ($notifiedUsers as $notifyUser)
             {
                 $notifyUser->user->notify($notification);
             }
 
-            Project::where('id', $project->id)->update($attributes);
+            projectRepository()->updateProject($project->id, $attributes);
             return redirect('/projects/' . $project->id);
         }
         return redirect('/projects');
     }
 
-    public function delete(Project $project)
+    /**
+     * Funkce zajišťuje odstarenění projektu $project.
+     *
+     * @param Project $project
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function delete(Project $project): Application|RedirectResponse|Redirector
     {
-        Project::where('id', $project->id)->delete();
+        projectRepository()->deleteProject($project->id);
         return redirect('/projects');
-    }
-
-    public function storeFile(Request $request)
-    {
-        $path = Storage::putFile('public.files', $request->file('file'));
-    }
-
-    public function uploadFile(Request $request)
-    {
-
-        // Validation
-        $request->validate([
-            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,pdf|max:2048'
-        ]);
-
-        if ($request->file('file'))
-        {
-            $file = $request->file('file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-
-            // File upload location
-            $location = 'files';
-
-            // Upload file
-            $file->move($location, $filename);
-
-            Session::flash('message', 'Upload Successfully.');
-            Session::flash('alert-class', 'alert-success');
-        } else
-        {
-            Session::flash('message', 'File not uploaded.');
-            Session::flash('alert-class', 'alert-danger');
-        }
-
-        return redirect('/');
     }
 }

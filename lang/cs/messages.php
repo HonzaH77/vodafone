@@ -65,9 +65,13 @@ return [
     'project' => 'Projekt',
     'editTask' => 'Upravit úkol',
     'notification' => 'Zasílat notifikace',
-    'author' => 'Author',
+    'author' => 'Autor',
     'requirementsN' => 'Požadavky',
     'mistakesN' => 'Chyby',
     'writeSomething' => 'Vyhledávání',
     'submitAttachment' => 'Nahrát přílohu',
+    'lang' => [
+        'cs' => 'Čeština',
+        'en' => 'Angličtina'
+    ]
 ];

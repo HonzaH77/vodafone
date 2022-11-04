@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
         $users = User::factory(5)->create();
         foreach ($users as $user)
         {
-            $projects = Project::factory(5)->create(['user_id' => $user->id]);
+            $projects = Project::factory(30)->create(['user_id' => $user->id]);
             foreach ($projects as $project)
             {
-                $tasks = Task::factory(10)->create(['project_id' => $project->id, 'user_id' => $user->id]);
+                $tasks = Task::factory(20)->create(['project_id' => $project->id, 'user_id' => $user->id]);
                 foreach ($tasks as $task)
-                    History::factory(5)->create(['task_id' => $task->id]);
+                    History::factory(8)->create(['task_id' => $task->id]);
                 foreach ($users as $user)
                     Comment::factory(1)->create(['project_id' => $project->id, 'user_id' => $user->id]);
 

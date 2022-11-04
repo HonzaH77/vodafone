@@ -199,7 +199,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\ProjectRepositoryServiceProvider::class,
+        App\Providers\HistoryRepositoryServiceProvider::class,
+        App\Providers\AttachmentRepositoryServiceProvider::class,
+        App\Providers\TaskRepositoryServiceProvider::class,
+        App\Providers\CommentRepositoryServiceProvider::class,
+        App\Providers\UserRepositoryServiceProvider::class
     ],
 
     /*

@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Rule;
 
 class SessionController extends Controller
 {
-    public function destroy()
+    /**
+     * Funkce zajistí odhlášení uživatele.
+     *
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function destroy() : Application|RedirectResponse|Redirector
     {
         auth()->logout();
         return redirect('/');
     }
 
-    public function store()
+    /**
+     * Funkce zajistí přihlášení uživatele.
+     *
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function store() : Application|RedirectResponse|Redirector
     {
         $attributes = \request()->validate([
             'email' => ['required', 'email', Rule::exists('users', 'email')],
@@ -28,7 +41,13 @@ class SessionController extends Controller
         return back()->withErrors(['email' => 'Vaše zadané přihlašovací údaje nebylo možné ověřit']);
     }
 
-    public function language($locale)
+    /**
+     * Funkce zajišťuje změnu jazykového prostředí
+     *
+     * @param $locale
+     * @return RedirectResponse
+     */
+    public function language($locale) : RedirectResponse
     {
         app()->setLocale($locale);
         session()->put('locale', $locale);
