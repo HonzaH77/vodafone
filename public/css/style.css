@@ -1,0 +1,42 @@
+html, body {
+    color: red;
+    height: 100vh;
+    margin: 0;
+}
+
+.navbar {
+    color: red;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.button-color-grey {
+    color: white;
+    border-color: grey;
+    background-color: grey;
+}
+.button-color-red {
+    color: white;
+    background-color: red;
+    border-color: grey
+}
+.color-red {
+    color: red;
+}
+
+.btn-bg-red {
+    background-color: red;
+}
+.bg-color-red {
+    background-color: red;
+}
+.color-black {
+    color: black;
+}
