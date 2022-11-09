@@ -40,22 +40,22 @@ class ProjectRepository implements ProjectRepositoryInterface
     /**
      * Funkce vrátí projekt s $id.
      *
-     * @param int $id
+     * @param int $projectId
      * @return ProjectItem
      */
-    function getProjectById(int $id): ProjectItem
+    function getProjectById(int $projectId): ProjectItem
     {
-        if (Cache::has($id))
+        if (Cache::has($projectId))
         {
-            return Cache::get($id);
+            return Cache::get($projectId);
         }
         $project = DB::table('projects')
             ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at', 'projects.user_id AS authorId')
-            ->where('projects.id', '=', $id)
+            ->where('projects.id', '=', $projectId)
             ->get()->first();
 
         $projectItem = new ProjectItem($project->id, $project->name, $project->description, $project->created_at, $project->authorId);
-        Cache::add($id, $projectItem, Carbon::now()->addSeconds(60));
+        Cache::add($projectId, $projectItem, Carbon::now()->addSeconds(60));
         return $projectItem;
     }
 

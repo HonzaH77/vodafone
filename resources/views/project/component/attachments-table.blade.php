@@ -10,9 +10,9 @@
         <tbody>
         @foreach($attachments as $attachment)
             <tr>
-                <th scope="row">{{$attachment->created_at}}</th>
+                <th scope="row">{{$attachment->getCreatedAt()}}</th>
                 <td>
-                    <a href="{{$project->getId()}}/attachment/{{$attachment->id}}">{{$attachment->file_name}}</a>
+                    <a href="{{$project->getId()}}/attachment/{{$attachment->getId()}}">{{$attachment->getFileName()}}</a>
                 </td>
             </tr>
         @endforeach
