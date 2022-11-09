@@ -152,7 +152,7 @@ class ProjectItem implements ProjectItemInterface
 
     /**
      * Funkce vytvoří projekt dle aktuálních parametrů, pokud ještě neexistuje.
-     * Pokud existuje, zaktualizuje jeho atributy.
+     * Pokud existuje, zaktualizuje jeho atributy v databázi.
      *
      * @return bool
      */
