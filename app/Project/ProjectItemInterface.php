@@ -4,21 +4,27 @@ namespace App\Project;
 
 interface ProjectItemInterface
 {
-    function getName();
+    function getName(): string;
 
-    function getDescription();
+    function getDescription(): string;
 
-    function getId();
+    function getId(): string;
 
-    function getCreatedAt();
+    function getCreatedAt(): string;
 
-    function getAuthor();
+    function getAuthor(): string;
 
-    function getAuthorId();
+    function getAuthorId(): string;
 
-    function setName(string $name);
+    function setName(string $name): void;
 
-    function setDescription(string $description);
+    function setDescription(string $description): void;
 
+    function setCreatedAt(string $createdAt): void;
 
+    function setAuthor(string $author): void;
+
+    function setAuthorId(string $authorId): void;
+
+    function save(): bool;
 }

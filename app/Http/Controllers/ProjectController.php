@@ -14,6 +14,7 @@ use function App\Helpers\attachmentRepository;
 use function App\Helpers\commentRepository;
 use function App\Helpers\projectRepository;
 use function App\Helpers\taskRepository;
+use function App\Helpers\userRepository;
 
 
 class ProjectController extends Controller
@@ -42,12 +43,14 @@ class ProjectController extends Controller
     public function all(): Application|Factory|View
     {
         $projects = projectRepository()->getAllProjects(request(['search']))->paginate(10);
+        $projects->map(function ($project) {$project->setAuthor(userRepository()->getUsernameById($project->getAuthorId())->getUsername());});
         $projectIDs = $projects->map(function ($project) {return $project->getId();});
         $taskStatuses = taskRepository()->getTaskStatusAndTypeByProjectId($projectIDs->all());
         return view('project.layout.all', [
             'projects' => $projects,
             'mistakes' => $this->getCountTaskStatuses($projects, $taskStatuses, 'mistake'),
             'requirements' => $this->getCountTaskStatuses($projects, $taskStatuses, 'requirement'),
+
         ]);
     }
 
@@ -55,7 +58,7 @@ class ProjectController extends Controller
      * Funkce ke každému projektu z $projects vrátí pole, které obsahuje projectID a počty stavů jednotlivých úkolů.
      *
      * @param $projects
-     * @param $tasks
+     * @param $tasksl
      * @param string $type
      * @return mixed
      */

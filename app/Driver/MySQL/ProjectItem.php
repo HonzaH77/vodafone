@@ -3,6 +3,9 @@
 namespace App\Driver\MySQL;
 
 use App\Project\ProjectItemInterface;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectItem implements ProjectItemInterface
 {
@@ -21,16 +24,14 @@ class ProjectItem implements ProjectItemInterface
      * @param string $name
      * @param string $description
      * @param string $createdAt
-     * @param string $author
      * @param string $authorId
      */
-    public function __construct(string $id, string $name, string $description, string $createdAt, string $author, string $authorId)
+    public function __construct(string $id, string $name, string $description, string $createdAt, string $authorId)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->createdAt = $createdAt;
-        $this->author = $author;
         $this->authorId = $authorId;
     }
 
@@ -86,6 +87,7 @@ class ProjectItem implements ProjectItemInterface
 
     /**
      * Vrací ID autora projektu.
+     *
      * @return string
      */
     function getAuthorId(): string
@@ -99,7 +101,7 @@ class ProjectItem implements ProjectItemInterface
      * @param string $name
      * @return void
      */
-    function setName(string $name)
+    function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -110,8 +112,62 @@ class ProjectItem implements ProjectItemInterface
      * @param string $description
      * @return void
      */
-    function setDescription(string $description)
+    function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * Nastaví datum vytvoření projektu na $createdAt.
+     *
+     * @param string $createdAt
+     * @return void
+     */
+    function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**,
+     * Nastaví jméno autora projektu na $author.
+     *
+     * @param string $author
+     * @return void
+     */
+    function setAuthor(string $author): void
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * Nastaví idAutora projektu na $authorId.
+     *
+     * @param string $authorId
+     * @return void
+     */
+    function setAuthorId(string $authorId): void
+    {
+        $this->authorId = $authorId;
+    }
+
+    /**
+     * Funkce vytvoří projekt dle aktuálních parametrů, pokud ještě neexistuje.
+     * Pokud existuje, zaktualizuje jeho atributy.
+     *
+     * @return bool
+     */
+    function save(): bool
+    {;
+        $attributes = [
+            'name' => $this->name,
+            'description' => $this->description,
+            'user_id' => $this->authorId,
+            'created_at' => $this->createdAt,
+            'updated_at' => Carbon::now()
+        ];
+
+        $this->id != 0 ? DB::table('projects')->where('id', $this->id)->update($attributes) :
+           $this->id = DB::table('projects')->insertGetId($attributes);
+        return false;
     }
 }

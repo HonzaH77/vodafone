@@ -6,6 +6,7 @@ namespace App\Driver\MySQL;
 use App\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -22,17 +23,17 @@ class ProjectRepository implements ProjectRepositoryInterface
     function getAllProjects(array $projectFilter): Collection
     {
         $projects = DB::table('projects')
-            ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at', 'users.username AS author', 'users.username AS authorId')
-            ->join('users', 'projects.user_id', '=', 'users.id');
+            ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at AS createdAt', 'projects.user_id AS authorId');
 
         if (isset($projectFilter["search"]))
+
         {
             $projects
                 ->where('projects.name', 'like', '%' . $projectFilter['search'] . '%')
                 ->orWhere('projects.description', 'like', '%' . $projectFilter['search'] . '%');
         }
         return collect($projects->get())->map(function ($project) {
-            return new ProjectItem($project->id, $project->name, $project->description, $project->created_at, $project->author, $project->authorId);
+            return new ProjectItem($project->id, $project->name, $project->description, $project->createdAt, $project->authorId);
         });
     }
 
@@ -49,12 +50,11 @@ class ProjectRepository implements ProjectRepositoryInterface
             return Cache::get($id);
         }
         $project = DB::table('projects')
-            ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at', 'users.username AS author', 'users.username AS authorId')
-            ->join('users', 'projects.user_id', '=', 'users.id')
+            ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at', 'projects.user_id AS authorId')
             ->where('projects.id', '=', $id)
             ->get()->first();
 
-        $projectItem = new ProjectItem($project->id, $project->name, $project->description, $project->created_at, $project->author, $project->authorId);
+        $projectItem = new ProjectItem($project->id, $project->name, $project->description, $project->created_at, $project->authorId);
         Cache::add($id, $projectItem, Carbon::now()->addSeconds(60));
         return $projectItem;
     }
@@ -68,7 +68,8 @@ class ProjectRepository implements ProjectRepositoryInterface
      */
     function updateProject(int $id, array $attributes): void
     {
-        DB::table('projects')->where('id', $id)->update($attributes);
+        $project = new ProjectItem($id, $attributes["name"], $attributes["description"], Carbon::now(), Auth::id());
+        $project->save();
     }
 
     /**
@@ -90,7 +91,9 @@ class ProjectRepository implements ProjectRepositoryInterface
      */
     function createProject(array $attributes): void
     {
-        DB::table('projects')->insert($attributes);
+
+        $project = new ProjectItem(0, $attributes["name"], $attributes["description"], Carbon::now(), $attributes["user_id"]);
+        $project->save();
     }
 
 }
