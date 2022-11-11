@@ -3,12 +3,15 @@
 namespace App\Driver\MySQL;
 
 
+use App\Parser\SearchQueryParser;
 use App\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -26,11 +29,22 @@ class ProjectRepository implements ProjectRepositoryInterface
             ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at AS createdAt', 'projects.user_id AS authorId');
 
         if (isset($projectFilter["search"]))
+            if (Str::contains($projectFilter["search"], '/'))
+            {
+                $query = (new SearchQueryParser($projectFilter["search"]))->parseQuery();
+                foreach ($query as $word)
+                {
+                    $projects->orWhere('projects.name', 'LIKE', '%' . $word . '%');
+                }
+            } else
+            {
+                $projects
+                    ->where('projects.name', 'like', '%' . $projectFilter['search'] . '%')
+                    ->orWhere('projects.description', 'like', '%' . $projectFilter['search'] . '%');
 
+            }
         {
-            $projects
-                ->where('projects.name', 'like', '%' . $projectFilter['search'] . '%')
-                ->orWhere('projects.description', 'like', '%' . $projectFilter['search'] . '%');
+
         }
         return collect($projects->get())->map(function ($project) {
             return new ProjectItem($project->id, $project->name, $project->description, $project->createdAt, $project->authorId);

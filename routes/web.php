@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\NotificationServe;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
@@ -39,7 +40,9 @@ Route::get('projects/{project}/new-task', function (Project $project) {
 Route::post('projects/{project}/new-task', [TaskController::class, 'store'])->middleware('auth');;
 Route::post('new-project', [ProjectController::class, 'store'])->name('newProject')->middleware('auth');
 Route::post('projects/{project}/comment', [CommentController::class, 'store'])->middleware('auth');
-Route::get('new-project', function () {return view('project.layout.create');})->middleware('auth');
+Route::get('new-project', function () {
+    return view('project.layout.create');
+})->middleware('auth');
 Route::post('logout', [SessionController::class, 'destroy'])->middleware('auth');
 Route::post('login', [SessionController::class, 'store'])->middleware('guest');
 Route::get('tasks/{task}/edit', function (Task $task) {
@@ -56,6 +59,6 @@ Route::get('/', function () {
     return view('home.layout.home');
 });
 Route::get('lang/{locale}', [SessionController::class, 'language']);
-Route::get('projects/notify/{project}', [NotificationController::class, 'store'])->middleware('auth');;
+Route::get('projects/notify/{project}', [NotificationServe::class, '__invoke'])->middleware('auth');;
 Route::post('projects/{project}/attachment', [AttachmentController::class, "store"])->middleware('auth');
 Route::get('projects/{project}/attachment/{attachment}', [AttachmentController::class, "download"])->middleware('auth');
