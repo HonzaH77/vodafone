@@ -4,6 +4,7 @@ namespace App\Driver\MySQL;
 
 
 use App\Parser\SearchQueryParser;
+use App\Project\Exception\RepositoryIsEmptyException;
 use App\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use function PHPUnit\Framework\isEmpty;
 
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -18,7 +20,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     /**
      * Funkce vrátí kolekci všech projektů ProjectItem. V případě, že je zadán parametr $projectFilter,
-     * vrátí kolekci projektů vyfiltrovaných podle tohoto parametru.
+     * vrátí kolekci pr$ojektů vyfiltrovaných podle tohoto parametru.
      *
      * @param array $projectFilter
      * @return Collection
@@ -43,9 +45,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                     ->orWhere('projects.description', 'like', '%' . $projectFilter['search'] . '%');
 
             }
-        {
 
-        }
         return collect($projects->get())->map(function ($project) {
             return new ProjectItem($project->id, $project->name, $project->description, $project->createdAt, $project->authorId);
         });
@@ -56,9 +56,11 @@ class ProjectRepository implements ProjectRepositoryInterface
      *
      * @param int $projectId
      * @return ProjectItem
+     * @throws RepositoryIsEmptyException
      */
     function getProjectById(int $projectId): ProjectItem
     {
+
         if (Cache::has($projectId))
         {
             return Cache::get($projectId);
@@ -68,6 +70,9 @@ class ProjectRepository implements ProjectRepositoryInterface
             ->where('projects.id', '=', $projectId)
             ->get()->first();
 
+        if (isEmpty($project)){
+            throw new RepositoryIsEmptyException();
+        }
         $projectItem = new ProjectItem($project->id, $project->name, $project->description, $project->created_at, $project->authorId);
         Cache::add($projectId, $projectItem, Carbon::now()->addSeconds(60));
         return $projectItem;

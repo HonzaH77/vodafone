@@ -51,7 +51,6 @@ class ProjectController extends Controller
             'projects' => $projects,
             'mistakes' => $this->getCountTaskStatuses($projects, $taskStatuses, 'mistake'),
             'requirements' => $this->getCountTaskStatuses($projects, $taskStatuses, 'requirement'),
-
         ]);
     }
 
