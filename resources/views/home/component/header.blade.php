@@ -5,7 +5,7 @@
         </a>
         @auth
             <span class="font-weight-bold vodafone_home-component-header__username">{{auth()->user()->username}}</span>
-            <form method="POST" action="/logout">
+            <form method="POST" action="{{route('logout')}}">
                 @csrf
                 <button class="btn btn-lg btn-outline-secondary text-white  btn-bg-red vodafone_home-component-header__logout"
                         type="submit">{{__('messages.logout')}}
@@ -14,10 +14,10 @@
         @else
             <form class="">
                 <a class="btn btn-lg btn-outline-secondary text-white btn-bg-red vodafone_home-component-header__login"
-                   type="button" href="/login">{{__('messages.login')}}
+                   type="button" href="{{route('login')}}">{{__('messages.login')}}
                 </a>
                 <a class="btn btn-lg btn-outline-secondary text-white btn-bg-red vodafone_home-component-header__registration"
-                   type="button" href="/register">{{__('messages.registration')}}
+                   type="button" href="{{route('register')}}">{{__('messages.registration')}}
                 </a>
             </form>
         @endauth

@@ -28,7 +28,7 @@
                                     type="button"
                                     class="btn btn-link btn-rounded btn-sm fw-bold vodafone_task-layout-index__edit-link"
                                     data-mdb-ripple-color="dark"
-                                    href="/tasks/{{$task->getId()}}/edit"
+                                    href="{{route('editTask', ['task' => $task])}}"
                                 >
                                     {{__('messages.edit')}}
                                 </a>
@@ -39,7 +39,7 @@
                                         type="button"
                                         class="btn btn-link btn-rounded btn-sm fw-bold vodafone_task-layout-index__delete-link"
                                         data-mdb-ripple-color="dark"
-                                        href="/tasks/{{$task->getId()}}/delete"
+                                        href="{{route('deleteTask', ['task' => $task])}}"
                                     >
                                         {{__('messages.delete')}}
                                     </a>

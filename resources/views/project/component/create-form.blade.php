@@ -1,4 +1,4 @@
-<form method="POST" action="/new-project">
+<form method="POST" action="{{route('addNewProject')}}">
     @csrf
     <div class="form-outline mb-4 vodafone_project-component-create-form__form">
         <label class="form-label vodafone_project-component-create-form__form-label" for="name">{{__('messages.name')}}

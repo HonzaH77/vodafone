@@ -1,4 +1,4 @@
-<form method="POST" action="/login">
+<form method="POST" action="{{route('loginSubmit')}}">
     @csrf
     <div class="form-outline mb-4 vodafone_login-component-login-form__form-outline">
         <label class="form-label vodafone_login-component-login-form__form-label" for="email">{{__('messages.email')}}

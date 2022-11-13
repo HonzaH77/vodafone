@@ -1,4 +1,4 @@
-<form method="POST" action="{{$project->getId()}}/attachment" enctype="multipart/form-data">
+<form method="POST" action="{{route('addAttachment', ['project' => $project->getId()])}}" enctype="multipart/form-data">
     @csrf
     <label class="form-label" for="file">{{__('messages.uploadAttachments')}}</label>
     <input name="file_name" type="file" class="form-control" id="file" required/>

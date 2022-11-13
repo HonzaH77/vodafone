@@ -1,4 +1,4 @@
-<form method="POST" action="/register">
+<form method="POST" action="{{route('registration')}}">
     @csrf
     <div class="form-outline mb-4 vodafone_registration-component-form__form-outline">
         <label class="form-label vodafone_registration-component-form__form-label" for="username">{{__('messages.username')}}

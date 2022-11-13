@@ -28,7 +28,7 @@
                         <label class="form-label vodafone_project-component-create-comments__form-label"
                                for="textAreaExample">{{__('messages.writeComment')}}
                         </label>
-                        <form method="POST" action="/projects/{{$project->getId()}}/comment">
+                        <form method="POST" action="{{route('addComment', ['project' => $project->getId()])}}">
                             @csrf
                             <div class="d-flex flex-start w-100">
                                 <label class="form-outline w-100" for="text">

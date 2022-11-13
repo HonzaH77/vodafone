@@ -12,7 +12,7 @@
             <tr>
                 <th scope="row">{{$attachment->getCreatedAt()}}</th>
                 <td>
-                    <a href="{{$project->getId()}}/attachment/{{$attachment->getId()}}">{{$attachment->getFileName()}}</a>
+                    <a href="{{route('attachment', ['attachment' => $attachment->getId(), 'project' => $project->getId()])}}">{{$attachment->getFileName()}}</a>
                 </td>
             </tr>
         @endforeach
