@@ -38,7 +38,7 @@ class TaskRepository implements TaskRepositoryInterface
     function getTaskById(int $id): TaskItem
     {
         $task = DB::table('tasks')
-            ->select('tasks.id', 'tasks.name', 'tasks.state', 'tasks.type', 'task.user_id AS authorId',
+            ->select('tasks.id', 'tasks.name', 'tasks.state', 'tasks.type', 'tasks.user_id AS authorId',
                 'tasks.created_at AS createdAt', 'tasks.endDate', 'tasks.project_id as projectId')
             ->where('tasks.id', '=', $id)
             ->get()->first();
