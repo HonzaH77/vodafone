@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped vodafone_task-component-history-table__table">
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -16,19 +16,19 @@
             <td>
                 @if($hist->getState() == 'in process')
                     <button type="button"
-                            class="btn btn-warning">{{__('messages.inProcess')}}</button>
+                            class="btn btn-warning vodafone_task-component-history-table__state">{{__('messages.inProcess')}}</button>
                 @endif
                 @if($hist->getState() == 'done')
                     <button type="button"
-                            class="btn btn-success">{{__('messages.done')}}</button>
+                            class="btn btn-success vodafone_task-component-history-table__state">{{__('messages.done')}}</button>
                 @endif
                 @if($hist->getState() == 'new')
                     <button type="button"
-                            class="btn btn-secondary">{{__('messages.new')}}</button>
+                            class="btn btn-secondary vodafone_task-component-history-table__state">{{__('messages.new')}}</button>
                 @endif
                 @if($hist->getState() == 'denied')
                     <button type="button"
-                            class="btn btn-danger">{{__('messages.denied')}}</button>
+                            class="btn btn-danger vodafone_task-component-history-table__state">{{__('messages.denied')}}</button>
                 @endif
             </td>
 

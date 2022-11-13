@@ -25,4 +25,14 @@ interface TaskItemInterface
 
     function getProjectName(): string;
 
+    function setName(string $name): void;
+
+    function setEndDate(string $date): void;
+
+    function setType(string $type): void;
+
+    function setState(string $state): void;
+
+    function save():void;
+
 }

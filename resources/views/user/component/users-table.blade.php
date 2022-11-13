@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped vodafone_user-component-user-table__table">
     <thead>
     <tr>
         <th scope="col">#</th>

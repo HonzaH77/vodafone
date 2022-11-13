@@ -16,7 +16,7 @@
                                 <a
                                     type="button"
                                     class="btn btn-link btn-rounded btn-sm fw-bold vodafone_project-layout-index__edit-button"
-                                    href="/projects/{{$project->getId()}}/edit"
+                                    href="{{route('editProject', ['project' => $project])}}"
                                 >
                                     {{__('messages.edit')}}
                                 </a>
@@ -25,7 +25,7 @@
                                 <a
                                     type="button"
                                     class="btn btn-link btn-rounded btn-sm fw-bold vodafone_project-layout-index__delete-button"
-                                    href="/projects/{{$project->getId()}}/delete"
+                                    href="{{route('deleteProject', ['project' => $project])}}"
                                 >
                                     {{__('messages.delete')}}
                                 </a>
@@ -49,14 +49,13 @@
 
                         @include('project.component.tasks-table')
 
-                        <div class="card-body p-5 text-center vodafone_project-layout-index__button">
-                            <a href="{{$project->getId()}}/new-task">
-                                <button type="submit"
-                                        class="btn btn-lg btn-primary btn-outline-secondary btn-block vodafone_project-layout-index__submit-button ">
-                                    {{__('messages.newTask')}}
-                                </button>
+                        <div class="card-body p-5 text-center">
+                            <a class="btn btn-lg btn-primary btn-outline-secondary btn-block vodafone_project-layout-all__new-project-button"
+                               href="{{route('newTask', ['project' => $project->getId()])}}">
+                                {{__('messages.newTask')}}
                             </a>
                         </div>
+
                         <hr class="my-4 vodafone_project-layout-index__line">
 
                         @include('project.component.comments')

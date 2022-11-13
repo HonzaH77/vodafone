@@ -1,15 +1,15 @@
 <form method="GET" action="#" class="form-inline">
-    <div class="form-group mr-2">
+    <div class="form-group mr-2 vodafone_task-component-filter__form-group">
         <input type="text"
                name="search"
-               class="form-control rounded"
+               class="form-control rounded vodafone_task-component-filter__form-control"
                placeholder={{__('messages.writeSomething')}}
                                                aria-label="Search"
                aria-describedby="search-addon"
                value="{{request('search')}}"/>
     </div>
-    <div class="form-group mr-2">
-        <select class="form-control" name="type">
+    <div class="form-group mr-2 vodafone_task-component-filter__form-group">
+        <select class="form-control vodafone_task-component-filter__form-control" name="type">
             @if(is_null(request("type")))
                 <option selected="selected"
                         disabled>{{__('messages.type')}}</option>
@@ -26,8 +26,8 @@
             </option>
         </select>
     </div>
-    <div class="form-group mr-2">
-        <select class="form-control" name="state">
+    <div class="form-group mr-2 vodafone_task-component-filter__form-group">
+        <select class="form-control vodafone_task-component-filter__form-control" name="state">
             @if(is_null(request("state")))
                 <option selected="selected"
                         disabled>{{ __("messages.state") }}</option>
@@ -54,6 +54,6 @@
             </option>
         </select>
     </div>
-    <button type="submit" class="btn btn-secondary button-color-red">
+    <button type="submit" class="btn btn-secondary vodafone_task-component-filter__submit-button">
         {{ __("messages.filter") }}</button>
 </form>

@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-@include('main.components.imports')
+    @include('main.component.imports')
 </head>
 <body id="page-top">
 
-@include('main.components.header')
+@include('main.component.header')
 
 @yield('content')
 
-@include('main.components.main-picture')
+@include('main.component.main-picture')
 
-@include('main.components.footer')
+@include('main.component.footer')
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessNotification;
 use App\Models\Project;
 use App\Notifications\ProjectNotification;
 use Illuminate\Contracts\Foundation\Application;
@@ -50,7 +51,6 @@ class ProjectController extends Controller
             'projects' => $projects,
             'mistakes' => $this->getCountTaskStatuses($projects, $taskStatuses, 'mistake'),
             'requirements' => $this->getCountTaskStatuses($projects, $taskStatuses, 'requirement'),
-
         ]);
     }
 
@@ -118,15 +118,15 @@ class ProjectController extends Controller
                 'description' => ['required']
             ]);
 
-            $notifiedUsers = $project->notification();
-            $notification = new ProjectNotification($project);
-            foreach ($notifiedUsers as $notifyUser)
-            {
-                $notifyUser->user->notify($notification);
-            }
+            ProcessNotification::dispatch($project);
 
-            projectRepository()->updateProject($project->id, $attributes);
-            return redirect('/projects/' . $project->id);
+            $project = projectRepository()->getProjectById($project->id);
+            $project->setName($attributes['name']);
+            $project->setDescription($attributes['description']);
+            $project->save();
+
+           // projectRepository()->updateProject($project->id, $attributes);
+            return redirect('/projects/' . $project->getId());
         }
         return redirect('/projects');
     }

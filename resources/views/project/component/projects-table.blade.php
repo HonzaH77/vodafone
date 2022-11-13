@@ -14,7 +14,7 @@
     @foreach ($projects as $project)
         <tr>
             <th>
-                <a class="vodafone_project-component-project-table__link" href="/projects/{{$project->getId()}}">
+                <a class="vodafone_project-component-project-table__link" href="{{route('project', ['project' => $project->getId()]) }}">
                     {{$project->getName()}}
                 </a>
             </th>
@@ -71,7 +71,7 @@
                     @endif
                 @endforeach
             </td>
-            <td><a href="/projects/notify/{{$project->getId()}}"
+            <td><a href="{{route('notification', ['project' => $project->getId()])}}"
                    class="vodafone_project-component-project-table__notification">{{__('messages.notification')}}</a>
             </td>
         </tr>

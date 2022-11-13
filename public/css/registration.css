@@ -1,0 +1,17 @@
+.vodafone_registration-layout-index__card{
+    border-radius: 1rem;
+}
+.vodafone_registration-component-form__submit-button{
+    color: white;
+    background-color: red;
+    border-color: grey;
+    font-weight: bold;
+}
+.vodafone_registration-layout-index__button{
+    color: white;
+    border-color: grey;
+    background-color: grey;
+}
+.vodafone_registration-layout-index__title{
+    font-weight: bold;
+}
