@@ -2,14 +2,12 @@
 
 @section('content')
     <!-- Projects table-->
-    <section class="vh-100 bg-light">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="">
-                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                        <div class="card-body p-5 text-left">
-
-                            <h2 class="font-weight-bold">{{$task->getName()}}</h2>
+    <section class="vh-100 bg-light vodafone_task-layout-index__section">
+        <div class="container py-5 h-100 vodafone_task-layout-index__container">
+            <div class="row d-flex justify-content-center align-items-center h-100 vodafone_task-layout-index__row">
+                    <div class="card shadow-2-strong vodafone_task-layout-index__card">
+                        <div class="card-body p-5 text-left vodafone_task-layout-index__card-body">
+                            <h2 class="font-weight-bold vodafone_task-layout-index__state">{{$task->getName()}}</h2>
                             @if($task->getState() == 'in process')
                                 <button type="button" class="btn btn-warning">{{__('messages.inProcess')}}</button>
                             @endif
@@ -28,7 +26,7 @@
                             <td>
                                 <a
                                     type="button"
-                                    class="btn btn-link btn-rounded btn-sm fw-bold"
+                                    class="btn btn-link btn-rounded btn-sm fw-bold vodafone_task-layout-index__edit-link"
                                     data-mdb-ripple-color="dark"
                                     href="/tasks/{{$task->getId()}}/edit"
                                 >
@@ -39,7 +37,7 @@
                                 <td>
                                     <a
                                         type="button"
-                                        class="btn btn-link btn-rounded btn-sm fw-bold"
+                                        class="btn btn-link btn-rounded btn-sm fw-bold vodafone_task-layout-index__delete-link"
                                         data-mdb-ripple-color="dark"
                                         href="/tasks/{{$task->getId()}}/delete"
                                     >
@@ -50,16 +48,14 @@
 
                             <hr class="my-4">
                             <div class="p-2">
-                                <h3 class="text-center text-decoration-line-through">{{__('messages.stateHistory')}}</h3>
+                                <h3 class="text-center text-decoration-line-through vodafone_task-layout-index__history">{{__('messages.stateHistory')}}</h3>
                             </div>
 
                             @include('task.component.task-history')
 
-                            <hr class="my-4">
-
+                            <hr class="my-4 vodafone_task-layout-index__hr">
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </section>

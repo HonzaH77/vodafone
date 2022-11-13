@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped vodafone_project-component-tasks-table__table">
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -18,28 +18,28 @@
             <td>
                 @if($task->type == 'mistake')
                     <button type="button"
-                            class="btn btn-dark">{{__('messages.mistake')}}</button>
+                            class="btn btn-dark table-striped vodafone_project-component-tasks-table__mistake">{{__('messages.mistake')}}</button>
                 @endif
                 @if($task->type == 'requirement')
                     <button type="button"
-                            class="btn btn-light">{{__('messages.requirement')}}</button>
+                            class="btn btn-light table-striped vodafone_project-component-tasks-table__requirement">{{__('messages.requirement')}}</button>
                 @endif
             </td>
             <td>@if($task->state == 'in process')
                     <button type="button"
-                            class="btn btn-warning">{{__('messages.inProcess')}}</button>
+                            class="btn btn-warning table-striped vodafone_project-component-tasks-table__in-process">{{__('messages.inProcess')}}</button>
                 @endif
                 @if($task->state == 'done')
                     <button type="button"
-                            class="btn btn-success">{{__('messages.done')}}</button>
+                            class="btn btn-success table-striped vodafone_project-component-tasks-table__done">{{__('messages.done')}}</button>
                 @endif
                 @if($task->state == 'new')
                     <button type="button"
-                            class="btn btn-secondary">{{__('messages.new')}}</button>
+                            class="btn btn-secondary table-striped vodafone_project-component-tasks-table__new">{{__('messages.new')}}</button>
                 @endif
                 @if($task->state == 'denied')
                     <button type="button"
-                            class="btn btn-danger">{{__('messages.denied')}}</button>
+                            class="btn btn-danger table-striped vodafone_project-component-tasks-table__denied">{{__('messages.denied')}}</button>
                 @endif
             </td>
 

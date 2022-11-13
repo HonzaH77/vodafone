@@ -26,8 +26,8 @@ use App\Models\Task;
 
 Route::get('login', function () {
     return view('login.layout.index');
-})->middleware('guest');
-Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
+})->name('login')->middleware('guest');
+Route::get('register', [RegisterController::class, 'create'])->name('register')->middleware('guest');
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('projects', [ProjectController::class, 'all']);
 Route::get('projects/{project}', [ProjectController::class, 'index']);
@@ -56,7 +56,7 @@ Route::get('projects/{project}/edit', function (Project $project) {
 })->middleware('auth');;
 Route::post('projects/{project}/edit', [ProjectController::class, 'edit'])->middleware('auth');;
 Route::get('/', function () {
-    return view('home.layout.home');
+    return view('home.layout.index');
 });
 Route::get('lang/{locale}', [SessionController::class, 'language']);
 Route::get('projects/notify/{project}', [NotificationServe::class, '__invoke'])->middleware('auth');;

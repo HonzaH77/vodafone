@@ -1,0 +1,42 @@
+.vodafone_task-layout-index__card{
+    border-radius: 1rem;
+}
+.vodafone_task-layout-edit__card{
+    border-radius: 1rem;
+}
+.vodafone_task-layout-create__card{
+    border-radius: 1rem;
+}
+.vodafone_task-layout-all__card{
+    border-radius: 1rem;
+}
+.vodafone_task-layout-edit__title{
+    font-weight: bold;
+}
+.vodafone_task-layout-create__title{
+    font-weight: bold;
+}
+.vodafone_task-layout-all__title{
+    font-weight: bold;
+}
+.vodafone_task-component-task-table__task-name{
+    color: red;
+}
+.vodafone_task-component-task-table__project-name{
+    color: red;
+}
+.vodafone_task-component-filter__submit-button{
+    color: white;
+    background-color: red;
+    border-color: grey;
+}
+.vodafone_task-component-edit-form__submit-button{
+    color: white;
+    background-color: red;
+    border-color: grey;
+}
+.btn-block vodafone_task-component-create-form__submit-button{
+    color: white;
+    background-color: red;
+    border-color: grey;
+}

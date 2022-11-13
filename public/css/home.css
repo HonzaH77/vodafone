@@ -1,0 +1,22 @@
+.vodafone_home-layout-index__home-section{
+    background-color: red;
+}
+.vodafone_home-layout-index__object-title{
+    color: red;
+    font-weight: bold;
+}
+.vodafone_home-component-language-switcher__available-locale{
+    color: black;
+}
+.vodafone_home-component-header__username{
+    font-weight: bold;
+}
+.vodafone_home-component-header__logout{
+    font-weight: bold;
+}
+.vodafone_home-component-header__login{
+    font-weight: bold;
+}
+.vodafone_home-component-header__registration{
+    font-weight: bold;
+}

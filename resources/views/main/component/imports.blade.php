@@ -21,4 +21,10 @@
 
 <!-- Styles -->
 <link rel="stylesheet" href="{{asset('/css/project.css') }}">
+<link rel="stylesheet" href="{{asset('/css/home.css') }}">
 <link rel="stylesheet" href="{{asset('/css/style.css') }}">
+<link rel="stylesheet" href="{{asset('/css/login.css') }}">
+<link rel="stylesheet" href="{{asset('/css/main.css') }}">
+<link rel="stylesheet" href="{{asset('/css/user.css') }}">
+<link rel="stylesheet" href="{{asset('/css/registration.css') }}">
+<link rel="stylesheet" href="{{asset('/css/task.css') }}">
