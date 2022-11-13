@@ -18,12 +18,12 @@ class NotificationServe extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  Project $project
+     * @param Project $project
      * @return Application|RedirectResponse|Redirector
      */
-    public function __invoke($project): Application|RedirectResponse|Redirector
+    public function __invoke(Project $project): Application|RedirectResponse|Redirector
     {
-        Notification::create(['user_id' => Auth::id(), 'project_id' => $project]);
+        Notification::create(['user_id' => Auth::id(), 'project_id' => $project->id]);
         return redirect('/projects');
     }
 }

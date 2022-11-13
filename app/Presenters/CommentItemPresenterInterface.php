@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Comment;
+namespace App\Presenters;
 
 interface CommentItemPresenterInterface
 {

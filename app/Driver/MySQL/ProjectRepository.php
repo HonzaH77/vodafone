@@ -88,6 +88,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      */
     function updateProject(int $id, array $attributes): void
     {
+        $attributes['updated_at'] = now();
         DB::table('projects')->where('id', $id)->update($attributes);
     }
 
@@ -110,9 +111,10 @@ class ProjectRepository implements ProjectRepositoryInterface
      */
     function createProject(array $attributes): void
     {
-//DB::table('projects')->insert($attributes, 'created_at' => now(), 'updated_at' => now());
-        $project = new ProjectItem(0, $attributes["name"], $attributes["description"], Carbon::now(), $attributes["user_id"]);
-        $project->save();
+        $attributes['created_at'] = now();
+        $attributes['updated_at'] = now();
+        DB::table('projects')->insert($attributes);
+
     }
 
 }

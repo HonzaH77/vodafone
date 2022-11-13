@@ -5,6 +5,7 @@ namespace App\Driver\MySQL;
 use App\Task\TaskRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use function App\Helpers\taskSearchQueryBuilder;
 
 class TaskRepository implements TaskRepositoryInterface
 {
@@ -63,16 +64,11 @@ class TaskRepository implements TaskRepositoryInterface
                 })->where('projects.name', 'like', '%' . $taskFilter['search'] . '%');
 
         }
-        if (isset($taskFilter["type"]))
-        {
-            $tasks
-                ->where('tasks.type', '=', $taskFilter['type']);
-        }
-        if (isset($taskFilter["state"]))
-        {
-            $tasks
-                ->where('state.type', '=', $taskFilter['type']);
-        }
+
+        isset($taskFilter["type"]) ? $tasks->where('tasks.type', '=', $taskFilter['type']) : '';
+
+        isset($taskFilter["state"]) ? $tasks->where('state.type', '=', $taskFilter['type']) : '';
+
 
         return collect($tasks->get())->map(function ($task) {
             return new TaskItem($task->id, $task->name, $task->authorId, $task->type, $task->state, $task->endDate,

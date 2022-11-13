@@ -58,7 +58,7 @@ class ProjectController extends Controller
      * Funkce ke každému projektu z $projects vrátí pole, které obsahuje projectID a počty stavů jednotlivých úkolů.
      *
      * @param $projects
-     * @param $tasksl
+     * @param $tasks
      * @param string $type
      * @return mixed
      */
@@ -125,7 +125,7 @@ class ProjectController extends Controller
             $project->setDescription($attributes['description']);
             $project->save();
 
-           // projectRepository()->updateProject($project->id, $attributes);
+           //projectRepository()->updateProject($project->id, $attributes);
             return redirect('/projects/' . $project->getId());
         }
         return redirect('/projects');

@@ -3,8 +3,9 @@
 namespace App\Driver\MySQL;
 
 use App\HIstory\HistoryItemInterface;
+use App\Item\AbstractItem;
 
-class HistoryItem implements HistoryItemInterface
+class HistoryItem extends AbstractItem implements HistoryItemInterface
 {
     protected string $id;
     protected string $state;
@@ -13,28 +14,28 @@ class HistoryItem implements HistoryItemInterface
 
     public function __construct(string $id, string $state, string $comment, string $createdAt)
     {
-        $this->id = $id;
+        parent::__construct($id);
         $this->state = $state;
         $this->comment = $comment;
         $this->createdAt = $createdAt;
     }
 
-    function getState(): string
+    public function getState(): string
     {
         return $this->state;
     }
 
-    function getId(): string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    function getComment(): string
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    function getCreatedAt(): string
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }

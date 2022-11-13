@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use App\Traits\AttachmentTrait;
 
 
 class AttachmentController extends Controller
 {
+    use AttachmentTrait;
 
     /**
      * Funkce zajišŤuje stažení souboru $sttachment přiložené k projektu $project.
@@ -36,15 +38,10 @@ class AttachmentController extends Controller
      */
     public function store(Project $project): Application|RedirectResponse|Redirector
     {
-        \request()->validate([
-            'file_name' => ['file', 'max:1500'],
-        ]);
 
-        $fileName = Request::file('file_name')->getClientOriginalName();
-        $filePath = Request::file('file_name')->store("public/attachments");
-
+        $file = $this->verifyAndUpload(\request());
         Attachment::create(['user_id' => Auth::id(), 'project_id' => $project->id,
-            'file_name' => $fileName, 'file_path' => $filePath]);
+            'file_name' => $file['name'], 'file_path' => $file['path']]);
         return redirect('/projects/' . $project->id);
     }
 }

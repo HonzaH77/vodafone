@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 class HistoryRepository implements HistoryRepositoryInterface
 {
-    function getHistoryByTaskId(int $id): Collection
+    public function getHistoryByTaskId(int $id): Collection
     {
         $history = DB::table('histories')
             ->select('histories.id', 'histories.state', 'histories.comment', 'histories.created_at AS createdAt')
