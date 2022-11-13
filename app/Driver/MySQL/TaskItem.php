@@ -3,6 +3,7 @@
 namespace App\Driver\MySQL;
 
 use App\Task\TaskItemInterface;
+use function App\Helpers\taskRepository;
 
 class TaskItem implements TaskItemInterface
 {
@@ -126,4 +127,36 @@ class TaskItem implements TaskItemInterface
         $this->projectName = $name;
     }
 
+
+    function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    function setEndDate(string $date): void
+    {
+        $this->endDate = $date;
+    }
+
+    function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    function setState(string $state): void
+    {
+        $this->state = $state;
+    }
+
+    function save(): void
+    {
+        $attributes = [
+            'name' => $this->name,
+            'endDate' => $this->endDate,
+            'type' => $this->type,
+            'state' => $this->state,
+        ];
+
+        taskRepository()->updateTask($this->id, $attributes);
+    }
 }

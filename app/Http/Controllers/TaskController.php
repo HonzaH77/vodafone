@@ -63,26 +63,34 @@ class TaskController extends Controller
      */
     public function edit(Task $task): Application|RedirectResponse|Redirector
     {
-        (Auth::id() == $task->user_id) ?
+        $task = taskRepository()->getTaskById($task->id);
+        if (Auth::id() == $task->getAuthorId()) {
             $attributes = \request()->validate([
                 'name' => ['required', 'max:80', 'min:3'],
                 'endDate' => ['required', 'date'],
                 'type' => ['required'],
                 'state' => ['required'],
-            ])
-            :
+            ]);
+            $task->setName($attributes['name']);
+            $task->setEndDate($attributes['endDate']);
+            $task->setType($attributes['type']);
+        }
+        else
+        {
             $attributes = \request()->validate([
                 'state' => ['required'],
             ]);
+        }
+        $task->setState($attributes['state']);
+        $task->save();
 
-        taskRepository()->updateTask($task->id, $attributes);
         $attributes = \request()->validate([
             'state' => ['required'],
             'comment' => ['max:150']
         ]);
 
-        History::create(['task_id' => $task->id] + $attributes);
-        return redirect('/tasks/' . $task->id);
+        History::create(['task_id' => $task->getId()] + $attributes);
+        return redirect('/tasks/' . $task->getId());
     }
 
     /**

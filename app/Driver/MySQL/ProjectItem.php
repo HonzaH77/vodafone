@@ -6,6 +6,7 @@ use App\Project\ProjectItemInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use function App\Helpers\projectRepository;
 
 class ProjectItem implements ProjectItemInterface
 {
@@ -117,16 +118,6 @@ class ProjectItem implements ProjectItemInterface
         $this->description = $description;
     }
 
-    /**
-     * Nastaví datum vytvoření projektu na $createdAt.
-     *
-     * @param string $createdAt
-     * @return void
-     */
-    function setCreatedAt(string $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
 
     /**,
      * Nastaví jméno autora projektu na $author.
@@ -151,23 +142,17 @@ class ProjectItem implements ProjectItemInterface
     }
 
     /**
-     * Funkce vytvoří projekt dle aktuálních parametrů, pokud ještě neexistuje.
-     * Pokud existuje, zaktualizuje jeho atributy v databázi.
+     * Funkce zaktualizuje údaje o projektu.
      *
-     * @return bool
+     * @return void
      */
-    function save(): bool
-    {;
+    function save(): void
+    {
         $attributes = [
             'name' => $this->name,
             'description' => $this->description,
-            'user_id' => $this->authorId,
-            'created_at' => $this->createdAt,
-            'updated_at' => Carbon::now()
         ];
 
-        $this->id != 0 ? DB::table('projects')->where('id', $this->id)->update($attributes) :
-           $this->id = DB::table('projects')->insertGetId($attributes);
-        return false;
+        projectRepository()->updateProject($this->id, $attributes);
     }
 }

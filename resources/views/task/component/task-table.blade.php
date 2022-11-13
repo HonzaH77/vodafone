@@ -14,10 +14,10 @@
 
     @foreach ($tasks as $task)
         <tr>
-            <td><a href="{{route('project', ['project' => $project->getId()])}}"
+            <td><a href="{{route('project', ['project' => $task->getProjectId()])}}"
                    class="vodafone_task-component-task-table__project-name">{{$task->getProjectName()}}</a></td>
             <td>
-                <a href="{{route('project', ['task' => $task->getId()])}}" class="vodafone_task-component-task-table__task-name">
+                <a href="{{route('project', ['project' => $task->getProjectId(), 'task' => $task->getId()])}}" class="vodafone_task-component-task-table__task-name">
                     {{$task->getName()}}
                 </a>
             </td>

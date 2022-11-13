@@ -120,8 +120,13 @@ class ProjectController extends Controller
 
             ProcessNotification::dispatch($project);
 
-            projectRepository()->updateProject($project->id, $attributes);
-            return redirect('/projects/' . $project->id);
+            $project = projectRepository()->getProjectById($project->id);
+            $project->setName($attributes['name']);
+            $project->setDescription($attributes['description']);
+            $project->save();
+
+           // projectRepository()->updateProject($project->id, $attributes);
+            return redirect('/projects/' . $project->getId());
         }
         return redirect('/projects');
     }

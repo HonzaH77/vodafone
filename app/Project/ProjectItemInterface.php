@@ -20,11 +20,9 @@ interface ProjectItemInterface
 
     function setDescription(string $description): void;
 
-    function setCreatedAt(string $createdAt): void;
-
     function setAuthor(string $author): void;
 
     function setAuthorId(string $authorId): void;
 
-    function save(): bool;
+    function save(): void;
 }

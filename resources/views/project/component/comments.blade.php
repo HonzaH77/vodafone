@@ -14,7 +14,7 @@
                             <div>
                                 <h6 class="fw-bold text-primary mb-1 vodafone_project-component-create-comments__username">{{$comment->getAuthor()}}</h6>
                                 <p class="text-muted small mb-0 vodafone_project-component-create-comments__published-at">
-                                    {{__('messages.published') . '-' . $comment->getCreatedAt()}}
+                                    {{$comment->getCreatedAt()}}
                                 </p>
                             </div>
 

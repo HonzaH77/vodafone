@@ -4,7 +4,7 @@ namespace App\Driver\MySQL;
 
 
 use App\Parser\SearchQueryParser;
-use App\Project\Exception\RepositoryIsEmptyException;
+use App\Project\Exception\ProjectNotFoundException;
 use App\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -56,7 +56,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      *
      * @param int $projectId
      * @return ProjectItem
-     * @throws RepositoryIsEmptyException
+     * @throws ProjectNotFoundException
      */
     function getProjectById(int $projectId): ProjectItem
     {
@@ -70,9 +70,10 @@ class ProjectRepository implements ProjectRepositoryInterface
             ->where('projects.id', '=', $projectId)
             ->get()->first();
 
-        if (isEmpty($project)){
-            throw new RepositoryIsEmptyException();
+        if ($project == null){
+          throw new ProjectNotFoundException();
         }
+
         $projectItem = new ProjectItem($project->id, $project->name, $project->description, $project->created_at, $project->authorId);
         Cache::add($projectId, $projectItem, Carbon::now()->addSeconds(60));
         return $projectItem;
@@ -87,8 +88,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      */
     function updateProject(int $id, array $attributes): void
     {
-        $project = new ProjectItem($id, $attributes["name"], $attributes["description"], Carbon::now(), Auth::id());
-        $project->save();
+        DB::table('projects')->where('id', $id)->update($attributes);
     }
 
     /**
@@ -110,7 +110,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      */
     function createProject(array $attributes): void
     {
-
+//DB::table('projects')->insert($attributes, 'created_at' => now(), 'updated_at' => now());
         $project = new ProjectItem(0, $attributes["name"], $attributes["description"], Carbon::now(), $attributes["user_id"]);
         $project->save();
     }

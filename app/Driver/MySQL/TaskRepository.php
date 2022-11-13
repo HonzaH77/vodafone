@@ -92,6 +92,8 @@ class TaskRepository implements TaskRepositoryInterface
 
     function createTask(array $attributes): void
     {
+        $attributes['created_at'] = now();
+        $attributes['updated_at'] = now();
         DB::table('tasks')->insert($attributes);
     }
 }

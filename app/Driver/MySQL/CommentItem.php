@@ -3,6 +3,7 @@
 namespace App\Driver\MySQL;
 
 use App\Comment\CommentItemInterface;
+use App\Presenters\CommentItemPresenter;
 
 class CommentItem implements CommentItemInterface
 {
@@ -10,6 +11,7 @@ class CommentItem implements CommentItemInterface
     protected string $text;
     protected string $author;
     protected string $createdAt;
+    protected string $commentPresenter = CommentItemPresenter::class;
 
     public function __construct(string $id, string $text, string $author, string $createdAt)
     {
@@ -26,7 +28,7 @@ class CommentItem implements CommentItemInterface
 
     function getText(): string
     {
-       return $this->text;
+        return $this->text;
     }
 
     function getAuthor(): string
@@ -36,6 +38,6 @@ class CommentItem implements CommentItemInterface
 
     function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return $this->commentPresenter::getPublishedDate($this->createdAt);
     }
 }
