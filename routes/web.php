@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use App\Models\Task;
+use function App\Helpers\projectRepository;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,6 @@ Route::get('lang/{locale}', [SessionController::class, 'language'])->name('langu
 Route::get('projects/notify/{project}', [NotificationServe::class, '__invoke'])->name('notification')->middleware('auth');;
 Route::post('projects/{project}/attachment', [AttachmentController::class, "store"])->name('addAttachment')->middleware('auth');
 Route::get('projects/{project}/attachment/{attachment}', [AttachmentController::class, "download"])->name('attachment')->middleware('auth');
+Route::bind('projectId', function($id) {
+    return projectRepository()->getProjectById($id);
+});

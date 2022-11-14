@@ -8,11 +8,9 @@ use App\Project\Exception\ProjectNotFoundException;
 use App\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use function PHPUnit\Framework\isEmpty;
 
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -25,7 +23,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      * @param array $projectFilter
      * @return Collection
      */
-    function getAllProjects(array $projectFilter): Collection
+    public function getAllProjects(array $projectFilter): Collection
     {
         $projects = DB::table('projects')
             ->select('projects.id', 'projects.name', 'projects.description', 'projects.created_at AS createdAt', 'projects.user_id AS authorId');
@@ -33,7 +31,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         if (isset($projectFilter["search"]))
             if (Str::contains($projectFilter["search"], '/'))
             {
-                $query = (new SearchQueryParser($projectFilter["search"]))->parseQuery();
+                $query = SearchQueryParser::parseQuery($projectFilter["search"]);
                 foreach ($query as $word)
                 {
                     $projects->orWhere('projects.name', 'LIKE', '%' . $word . '%');
@@ -58,7 +56,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      * @return ProjectItem
      * @throws ProjectNotFoundException
      */
-    function getProjectById(int $projectId): ProjectItem
+    public function getProjectById(int $projectId): ProjectItem
     {
 
         if (Cache::has($projectId))
@@ -86,7 +84,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      * @param array $attributes
      * @return void
      */
-    function updateProject(int $id, array $attributes): void
+    public function updateProject(int $id, array $attributes): void
     {
         $attributes['updated_at'] = now();
         DB::table('projects')->where('id', $id)->update($attributes);
@@ -98,7 +96,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      * @param int $id
      * @return void
      */
-    function deleteProject(int $id): void
+    public function deleteProject(int $id): void
     {
         DB::table('projects')->where('id', $id)->delete();
     }
@@ -109,7 +107,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      * @param array $attributes
      * @return void
      */
-    function createProject(array $attributes): void
+    public function createProject(array $attributes): void
     {
         $attributes['created_at'] = now();
         $attributes['updated_at'] = now();

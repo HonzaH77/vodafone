@@ -2,24 +2,17 @@
 
 namespace App\Parser;
 
-use App\Models\Project;
 
 class SearchQueryParser implements SearchQueryParserInterface
 {
-    protected string $query;
-
-    public function __construct(string $query)
+    /**
+     * Funkce slouží jako parser, který rozdělý $query pomocí znaku '/' a vrátí pole jednotlivých slov.
+     *
+     * @param string $query
+     * @return array
+     */
+    public static function parseQuery(string $query): array
     {
-        $this->query = $query;
-    }
-
-    function parseQuery(): array
-    {
-        $query = explode('/',$this->query);
-        $parseQuery = array();
-        foreach ($query as $q) {
-            $parseQuery[] = '%' . $q . '%';
-        }
-        return $parseQuery;
+        return explode('/',$query);
     }
 }

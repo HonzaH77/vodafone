@@ -14,7 +14,7 @@ class AttachmentRepository implements AttachmentRepositoryInterface
      * @param int $id
      * @return Collection
      */
-    function getAttachmentByProjectId(int $id): Collection
+    public function getAttachmentByProjectId(int $id): Collection
     {
         $attachments = DB::table('attachments')
             ->select('attachments.id', 'attachments.file_name AS fileName', 'attachments.file_path AS filePath', 'attachments.created_at AS createdAt')

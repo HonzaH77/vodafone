@@ -15,7 +15,7 @@ class CommentRepository implements CommentRepositoryInterface
      * @param int $id
      * @return Collection
      */
-    function getCommentByProjectId(int $id): Collection
+    public function getCommentByProjectId(int $id): Collection
     {
         $comments =  DB::table('comments')
             ->select('comments.id', 'comments.text', 'comments.created_at AS createdAt', 'users.username AS author')

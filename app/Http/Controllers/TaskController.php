@@ -32,6 +32,8 @@ class TaskController extends Controller
     }
 
     /**
+     * FUnkce zajišťuje zobrazení seznamu všech úkolů.
+     *
      * @return Application|Factory|View
      */
     public function all(): Application|Factory|View
@@ -42,6 +44,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Funkce zajišťuje uložaní úkolu.
+     *
      * @param Project $project
      * @return Application|RedirectResponse|Redirector
      */
@@ -58,6 +62,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Funkce zajišťuje editaci úkolu.
+     *
      * @param Task $task
      * @return Application|RedirectResponse|Redirector
      */
@@ -94,6 +100,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Funkce zajišťuje odstranění úkolu $task.
+     *
      * @param Task $task
      * @return Application|RedirectResponse|Redirector
      */

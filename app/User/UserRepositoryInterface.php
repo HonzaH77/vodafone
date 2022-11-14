@@ -2,7 +2,6 @@
 
 namespace App\User;
 
-use App\Driver\MySQL\CommentItem;
 use App\Driver\MySQL\UserItem;
 use Illuminate\Support\Collection;
 

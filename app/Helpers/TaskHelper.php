@@ -5,7 +5,8 @@ use App\SearchQueryBuilder\TaskSearchQueryBuilderInterface;
 use App\Task\TaskRepositoryInterface;
 use PhpParser\Builder;
 
-if (!function_exists(__NAMESPACE__ . 'TaskRepository')) {
+if (!function_exists(__NAMESPACE__ . 'TaskRepository'))
+{
     /**
      * Helper, ktery vraci instanci repositare taskRepository.
      *
@@ -15,13 +16,21 @@ if (!function_exists(__NAMESPACE__ . 'TaskRepository')) {
     {
         static $taskRepository = null;
 
-        if (null === $taskRepository) {
+        if (null === $taskRepository)
+        {
             $taskRepository = app(TaskRepositoryInterface::class);
         }
 
         return $taskRepository;
     }
+}
+if (!function_exists(__NAMESPACE__ . 'TaskSearchQueryBuilder')){
 
+    /**
+     * Helper, ktery vraci instanci repositare taskSearchQueryBuilder.
+     *
+     * @return TaskSearchQueryBuilderInterface
+     */
     function taskSearchQueryBuilder() : TaskSearchQueryBuilderInterface
     {
         static $taskSearchQueryBuilder = null;

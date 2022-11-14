@@ -8,6 +8,12 @@ use Illuminate\Support\Collection;
 
 class HistoryRepository implements HistoryRepositoryInterface
 {
+    /**
+     * Funkce vrátí historii změny úkolu s $id.
+     *
+     * @param int $id
+     * @return Collection
+     */
     public function getHistoryByTaskId(int $id): Collection
     {
         $history = DB::table('histories')

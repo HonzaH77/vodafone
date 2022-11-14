@@ -2,12 +2,17 @@
 
 namespace App\Traits;
 
-use App\Models\Project;
 use Illuminate\Http\Request;
 
 
 trait AttachmentTrait
 {
+    /**
+     * Trait, slouží k validaci a ukládání příloh k projektům.
+     *
+     * @param Request $request
+     * @return array
+     */
     public function verifyAndUpload(Request $request): array
     {
         $request->validate([

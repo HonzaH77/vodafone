@@ -58,4 +58,5 @@
 
     </tbody>
 </table>
-{{$tasks->links()}}
+{{$tasks->appends(Request::except("page"))->links()}}
+

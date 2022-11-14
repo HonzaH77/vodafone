@@ -19,7 +19,7 @@ class TaskItem implements TaskItemInterface
 
 
     /**
-     * Funkce TaskItem se zadanými prametry.
+     * Funkce vytvoří TaskItem se zadanými prametry.
      *
      * @param string $id
      * @param string $name
@@ -47,7 +47,7 @@ class TaskItem implements TaskItemInterface
      *
      * @return string
      */
-    function getName(): string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -57,7 +57,7 @@ class TaskItem implements TaskItemInterface
      *
      * @return string
      */
-    function getId(): string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -67,7 +67,7 @@ class TaskItem implements TaskItemInterface
      *
      * @return string
      */
-    function getAuthorId(): string
+    public function getAuthorId(): string
     {
         return $this->authorId;
     }
@@ -77,7 +77,7 @@ class TaskItem implements TaskItemInterface
      *
      * @return string
      */
-    function getType(): string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -87,7 +87,7 @@ class TaskItem implements TaskItemInterface
      *
      * @return string
      */
-    function getState(): string
+    public function getState(): string
     {
         return $this->state;
     }
@@ -97,58 +97,101 @@ class TaskItem implements TaskItemInterface
      *
      * @return string
      */
-    function getEndDate(): string
+    public function getEndDate(): string
     {
         return $this->endDate;
     }
 
     /**
-     * FUnkce vrací datum vytvoření úkolu.
+     * Funkce vrací datum vytvoření úkolu.
      *
      * @return string
      */
-    function getCreatedAt(): string
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
 
-    function getProjectId(): string
+    /**
+     * Funkce vrátí ID projektu, kte kterému patří tento úkol.
+     *
+     * @return string
+     */
+    public function getProjectId(): string
     {
         return $this->projectId;
     }
 
-    function getProjectName(): string
+    /**
+     * Funkce vrátí název projektu, ke kterému patří tento úkol.
+     *
+     * @return string
+     */
+    public function getProjectName(): string
     {
         return $this->projectName;
     }
 
-    function setProjectName(string $name): void
+    /**
+     * Funkce nastaví název projektu na $name, ke kterému patří tento úkol.
+     *
+     * @return string
+     */
+    public function setProjectName(string $name): void
     {
         $this->projectName = $name;
     }
 
-
-    function setName(string $name): void
+    /**
+     * Funkce nastaví jméno úkolu na $name.
+     *
+     * @param string $name
+     * @return void
+     */
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    function setEndDate(string $date): void
+    /**
+     * Funkce nastaví datum ukončení úkolu na $date.
+     *
+     * @param string $date
+     * @return void
+     */
+    public function setEndDate(string $date): void
     {
         $this->endDate = $date;
     }
 
-    function setType(string $type): void
+    /**
+     * Funkce nastaví typ úkolu na $type.
+     *
+     * @param string $type
+     * @return void
+     */
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    function setState(string $state): void
+    /**
+     * Funkce nastaví stav úkolu na $state.
+     *
+     * @param string $state
+     * @return void
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
     }
 
-    function save(): void
+    /**
+     * Funkce zaktualizuje údaje o úkolu.
+     *
+     * @return void
+     */
+    public function save(): void
     {
         $attributes = [
             'name' => $this->name,
