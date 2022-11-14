@@ -27,6 +27,12 @@ class CommentRepository implements CommentRepositoryInterface
         });
     }
 
+    /**
+     * Funkce vytvoří komentář se zadanými atributy $attributes.
+     *
+     * @param array $attributes
+     * @return void
+     */
     public function store(array $attributes): void
     {
         DB::table('comments')->insert($attributes);

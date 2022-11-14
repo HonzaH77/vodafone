@@ -24,6 +24,12 @@ class HistoryRepository implements HistoryRepositoryInterface
         });
     }
 
+    /**
+     * Funkce vytvoří záznam v historii se zadanými atributy $attributes.
+     *
+     * @param array $attributes
+     * @return void
+     */
     public function store(array $attributes): void
     {
         DB::table('histories')->insert($attributes);
