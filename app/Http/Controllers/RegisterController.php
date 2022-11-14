@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Rule;
+use function App\Helpers\userRepository;
 
 class RegisterController extends Controller
 {
@@ -35,9 +36,7 @@ class RegisterController extends Controller
             'password' => ['required', 'min:3']
         ]);
 
-
-        $user = User::create($attributes);
-        auth()->login($user);
+        userRepository()->store($attributes);
         return redirect('/');
     }
 }

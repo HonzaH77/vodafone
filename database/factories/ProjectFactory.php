@@ -3,22 +3,27 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
- */
-class ProjectFactory extends Factory
+
+class ProjectFactory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public static function make(int $max, int $userId)
     {
-        return [
-            'name' => fake()->realText(50),
-            'description' => fake()->realTextBetween(20, 50)
-        ];
+        $projectId = [];
+        for ($i = 0; $i < $max; $i++) {
+            $projectId[] = DB::table('projects')->insertGetId([
+                'user_id' => $userId,
+                'name' => fake()->realText(50),
+                'description' => fake()->realTextBetween(20, 50)
+            ]);
+        }
+
+        return $projectId;
     }
 }

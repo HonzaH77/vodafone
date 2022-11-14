@@ -4,9 +4,9 @@ namespace App\User;
 
 interface UserItemInterface
 {
-    function getId(): string;
+    public function getId(): string;
 
-    function getUsername(): string;
+    public function getUsername(): string;
 
-    function getEmail(): string;
+    public function getEmail(): string;
 }

@@ -4,8 +4,8 @@ namespace App\Attachment;
 
 interface AttachmentItemInterface
 {
-    function getId(): string;
-    function getFilePath(): string;
-    function getFileName(): string;
-    function getCreatedAt(): string;
+    public function getId(): string;
+    public function getFilePath(): string;
+    public function getFileName(): string;
+    public function getCreatedAt(): string;
 }

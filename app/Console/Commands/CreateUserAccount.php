@@ -2,10 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Driver\MySQL\UserItem;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Validation\Rule;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class CreateUserAccount extends Command

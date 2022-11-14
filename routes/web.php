@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationServe;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
@@ -10,8 +9,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Project;
-use App\Models\Task;
+use function App\Helpers\projectRepository;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +30,8 @@ Route::get('projects/{project}', [ProjectController::class, 'index'])->name('pro
 Route::get('tasks', [TaskController::class, 'all'])->name('allTasks');
 Route::get('tasks/{task}', [TaskController::class, 'index'])->name('task');
 Route::get('users', [UserController::class, 'index'])->name('allUsers');
-Route::get('projects/{project}/new-task', function (Project $project) {
-    return view('task.layout.create', ['newTask' => $project]);
+Route::get('projects/{project}/new-task', function (int $project) {
+    return view('task.layout.create', ['newTask' => projectRepository()->getProjectById($project)]);
 })->name('newTask')->middleware('auth');
 Route::post('projects/{project}/new-task', [TaskController::class, 'store'])->middleware('auth');;
 Route::post('new-project', [ProjectController::class, 'store'])->name('addNewProject')->middleware('auth');
@@ -43,20 +41,23 @@ Route::get('new-project', function () {
 })->name('newProject')->middleware('auth');
 Route::post('logout', [SessionController::class, 'destroy'])->name('logout')->middleware('auth');
 Route::post('login', [SessionController::class, 'store'])->name('loginSubmit')->middleware('guest');
-Route::get('tasks/{task}/edit', function (Task $task) {
-    return view('task.layout.edit', ['original' => $task]);
+Route::get('tasks/{task}/edit', function (int $task) {
+    return view('task.layout.edit', ['original' => \App\Helpers\taskRepository()->getTaskById($task)]);
 })->name('editTask')->middleware('auth');;
 Route::post('tasks/{task}/edit', [TaskController::class, 'edit'])->middleware('auth');;
 Route::get('tasks/{task}/delete', [TaskController::class, 'delete'])->name('deleteTask')->middleware('auth');;
 Route::get('projects/{project}/delete', [ProjectController::class, 'delete'])->name('deleteProject')->middleware('auth');;
-Route::get('projects/{project}/edit', function (Project $project) {
-    return view('project.layout.edit', ['original' => $project]);
+Route::get('projects/{project}/edit', function (int $project) {
+    return view('project.layout.edit', ['original' => projectRepository()->getProjectById($project)]);
 })->name('editProject')->middleware('auth');;
 Route::post('projects/{project}/edit', [ProjectController::class, 'edit'])->middleware('auth');;
 Route::get('/', function () {
     return view('home.layout.index');
 });
 Route::get('lang/{locale}', [SessionController::class, 'language'])->name('language');
-Route::get('projects/notify/{project}', [NotificationServe::class, '__invoke'])->name('notification')->middleware('auth');;
+Route::get('projects/notify/{project}', NotificationServe::class)->name('notification')->middleware('auth');;
 Route::post('projects/{project}/attachment', [AttachmentController::class, "store"])->name('addAttachment')->middleware('auth');
 Route::get('projects/{project}/attachment/{attachment}', [AttachmentController::class, "download"])->name('attachment')->middleware('auth');
+Route::bind('projectId', function($id) {
+    return projectRepository()->getProjectById($id);
+});

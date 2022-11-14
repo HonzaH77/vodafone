@@ -11,6 +11,14 @@ class AttachmentItem implements AttachmentItemInterface
     protected string $filePath;
     protected string $createdAt;
 
+    /**
+     * Vytviří nový AttachmentItem.
+     *
+     * @param string $id
+     * @param string $fileName
+     * @param string $filePath
+     * @param string $createdAt
+     */
     public function __construct(string $id, string $fileName, string $filePath, string $createdAt)
     {
         $this->id = $id;
@@ -19,22 +27,42 @@ class AttachmentItem implements AttachmentItemInterface
         $this->createdAt = $createdAt;
     }
 
-    function getId(): string
+    /**
+     * Funkce vrací id.
+     *
+     * @return string
+     */
+    public function getId(): string
     {
         return $this->id;
     }
 
-    function getFilePath(): string
+    /**
+     * Funkce vrací cestu k souboru.
+     *
+     * @return string
+     */
+    public function getFilePath(): string
     {
         return $this->filePath;
     }
 
-    function getFileName(): string
+    /**
+     * Funkce vrací název souboru.
+     *
+     * @return string
+     */
+    public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    function getCreatedAt(): string
+    /**
+     * Funkce vrací datum vytvoření přílohy.
+     *
+     * @return string
+     */
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }

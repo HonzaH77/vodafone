@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\History;
-use App\Models\Project;
-use App\Models\Task;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Ramsey\Collection\Collection;
 use function App\Helpers\historyRepository;
 use function App\Helpers\projectRepository;
 use function App\Helpers\taskRepository;
@@ -32,39 +28,49 @@ class TaskController extends Controller
     }
 
     /**
+     * FUnkce zajišťuje zobrazení seznamu všech úkolů.
+     *
      * @return Application|Factory|View
      */
     public function all(): Application|Factory|View
     {
         $tasks = taskRepository()->getAllTasks(request(['search', 'type', 'state']))->paginate(10);
-        $tasks->map(function ($task) {$task->setProjectName(projectRepository()->getProjectById($task->getProjectId())->getName());});
+        $tasks->map(function ($task) {
+            $task->setProjectName(projectRepository()->getProjectById($task->getProjectId())->getName());
+        });
         return view('task.layout.all', ['tasks' => $tasks]);
     }
 
     /**
-     * @param Project $project
+     * Funkce zajišťuje uložaní úkolu.
+     *
+     * @param int $projectId
      * @return Application|RedirectResponse|Redirector
      */
-    public function store(Project $project): Application|RedirectResponse|Redirector
+    public function store(int $projectId): Application|RedirectResponse|Redirector
     {
+        $project = projectRepository()->getProjectById($projectId);
         $attributes = \request()->validate([
             'name' => ['required', 'max:80', 'min:3'],
             'endDate' => ['required', 'date'],
             'type' => ['required'],
         ]);
 
-        taskRepository()->createTask(['state' => 'new', 'user_id' => Auth::id(), 'project_id' => $project->id] + $attributes);
-        return redirect('/projects/' . $project->id);
+        taskRepository()->createTask(['state' => 'new', 'user_id' => Auth::id(), 'project_id' => $project->getId()] + $attributes);
+        return redirect('/projects/' . $project->getId());
     }
 
     /**
-     * @param Task $task
+     * Funkce zajišťuje editaci úkolu.
+     *
+     * @param int $taskId
      * @return Application|RedirectResponse|Redirector
      */
-    public function edit(Task $task): Application|RedirectResponse|Redirector
+    public function edit(int $taskId): Application|RedirectResponse|Redirector
     {
-        $task = taskRepository()->getTaskById($task->id);
-        if (Auth::id() == $task->getAuthorId()) {
+        $task = taskRepository()->getTaskById($taskId);
+        if (Auth::id() == $task->getAuthorId())
+        {
             $attributes = \request()->validate([
                 'name' => ['required', 'max:80', 'min:3'],
                 'endDate' => ['required', 'date'],
@@ -74,8 +80,7 @@ class TaskController extends Controller
             $task->setName($attributes['name']);
             $task->setEndDate($attributes['endDate']);
             $task->setType($attributes['type']);
-        }
-        else
+        } else
         {
             $attributes = \request()->validate([
                 'state' => ['required'],
@@ -89,17 +94,20 @@ class TaskController extends Controller
             'comment' => ['max:150']
         ]);
 
-        History::create(['task_id' => $task->getId()] + $attributes);
+        historyRepository()->store(['task_id' => $task->getId()] + $attributes);
         return redirect('/tasks/' . $task->getId());
     }
 
     /**
-     * @param Task $task
+     * Funkce zajišťuje odstranění úkolu $task.
+     *
+     * @param int $taskId
      * @return Application|RedirectResponse|Redirector
      */
-    public function delete(Task $task): Application|RedirectResponse|Redirector
+    public function delete(int $taskId): Application|RedirectResponse|Redirector
     {
-        taskRepository()->deleteTask($task->id);
+        $task = taskRepository()->getTaskById($taskId);
+        taskRepository()->deleteTask($task->getId());
         return redirect('/tasks');
     }
 

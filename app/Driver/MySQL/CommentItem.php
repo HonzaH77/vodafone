@@ -3,9 +3,10 @@
 namespace App\Driver\MySQL;
 
 use App\Comment\CommentItemInterface;
+use App\Item\AbstractItem;
 use App\Presenters\CommentItemPresenter;
 
-class CommentItem implements CommentItemInterface
+class CommentItem extends AbstractItem implements CommentItemInterface
 {
     protected string $id;
     protected string $text;
@@ -13,30 +14,58 @@ class CommentItem implements CommentItemInterface
     protected string $createdAt;
     protected string $commentPresenter = CommentItemPresenter::class;
 
+    /**
+     * Vytvoří nový CommentItem.
+     *
+     * @param string $id
+     * @param string $text
+     * @param string $author
+     * @param string $createdAt
+     */
     public function __construct(string $id, string $text, string $author, string $createdAt)
     {
-        $this->id = $id;
+        parent::__construct($id);
         $this->text = $text;
         $this->author = $author;
         $this->createdAt = $createdAt;
     }
 
-    function getId(): string
+    /**
+     * Funkce vrátí id.
+     *
+     * @return string
+     */
+    public function getId(): string
     {
         return $this->id;
     }
 
-    function getText(): string
+    /**
+     * FUnkce vrátí text komentáře.
+     *
+     * @return string
+     */
+    public function getText(): string
     {
         return $this->text;
     }
 
-    function getAuthor(): string
+    /**
+     * Funkce vrátí autora komentáře.
+     *
+     * @return string
+     */
+    public function getAuthor(): string
     {
         return $this->author;
     }
 
-    function getCreatedAt(): string
+    /**
+     * Funkce vrátí datum vytvoření komentáře.
+     *
+     * @return string
+     */
+    public function getCreatedAt(): string
     {
         return $this->commentPresenter::getPublishedDate($this->createdAt);
     }

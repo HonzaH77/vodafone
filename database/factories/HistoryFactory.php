@@ -3,24 +3,28 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\History>
- */
-class HistoryFactory extends Factory
+class HistoryFactory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public static function make(int $max, int $taskId)
     {
+        $historyId = [];
         $state = ['new', 'denied', 'done', 'in process'];
-        return [
-            'state' => $state[rand(0, 3)],
-            'comment' => fake()->realTextBetween(20, 50)
-        ];
+        for ($i = 0; $i < $max; $i++) {
+            $historyId[] = DB::table('histories')->insertGetId([
+                'task_id' => $taskId,
+                'state' => $state[rand(0, 3)],
+                'comment' => fake()->realTextBetween(20, 50)
+            ]);
+        }
+
+        return $historyId;
     }
 
 }

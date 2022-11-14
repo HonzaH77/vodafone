@@ -204,7 +204,9 @@ return [
         App\Providers\AttachmentRepositoryServiceProvider::class,
         App\Providers\TaskRepositoryServiceProvider::class,
         App\Providers\CommentRepositoryServiceProvider::class,
-        App\Providers\UserRepositoryServiceProvider::class
+        App\Providers\UserRepositoryServiceProvider::class,
+        App\Providers\TaskSearchQueryBuilderServiceProvider::class,
+        App\Providers\NotificationRepositoryServiceProvider::class
     ],
 
     /*

@@ -4,5 +4,5 @@ namespace App\Parser;
 
 interface SearchQueryParserInterface
 {
-    function parseQuery(): array;
+    public static function parseQuery(string $query): array;
 }

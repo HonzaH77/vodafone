@@ -8,8 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
-
-    function getAllUsers(): Collection
+    /**
+     * Funkce vrátí kolekci všech uživatelů.
+     *
+     * @return Collection
+     */
+    public function getAllUsers(): Collection
     {
         $users = DB::table('users')->select('users.id', 'users.username', 'users.email');
         return collect($users->get())->map(function ($user) {
@@ -17,12 +21,23 @@ class UserRepository implements UserRepositoryInterface
         });
     }
 
-    function getUsernameById(string $id): UserItem
+    /**
+     * Funkce vrátí uživatele s $id.
+     *
+     * @param string $id
+     * @return UserItem
+     */
+    public function getUsernameById(string $id): UserItem
     {
         $user = DB::table('users')
             ->select('users.id', 'users.username', 'users.email')
             ->where('users.id', '=', $id)->first();
 
         return new UserItem($user->id, $user->username, $user->email);
+    }
+
+    public function store(array $attributes): void
+    {
+        DB::table('users')->insert($attributes);
     }
 }

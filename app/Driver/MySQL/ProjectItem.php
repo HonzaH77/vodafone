@@ -2,13 +2,11 @@
 
 namespace App\Driver\MySQL;
 
+use App\Item\AbstractItem;
 use App\Project\ProjectItemInterface;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use function App\Helpers\projectRepository;
 
-class ProjectItem implements ProjectItemInterface
+class ProjectItem extends AbstractItem implements ProjectItemInterface
 {
     protected string $id;
     protected string $name;
@@ -29,6 +27,7 @@ class ProjectItem implements ProjectItemInterface
      */
     public function __construct(string $id, string $name, string $description, string $createdAt, string $authorId)
     {
+        parent::__construct($id);
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
@@ -51,7 +50,7 @@ class ProjectItem implements ProjectItemInterface
      *
      * @return string
      */
-    function getDescription(): string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -61,7 +60,7 @@ class ProjectItem implements ProjectItemInterface
      *
      * @return string
      */
-    function getId(): string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -71,7 +70,7 @@ class ProjectItem implements ProjectItemInterface
      *
      * @return string
      */
-    function getCreatedAt(): string
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
@@ -81,7 +80,7 @@ class ProjectItem implements ProjectItemInterface
      *
      * @return string
      */
-    function getAuthor(): string
+    public function getAuthor(): string
     {
         return $this->author;
     }
@@ -91,7 +90,7 @@ class ProjectItem implements ProjectItemInterface
      *
      * @return string
      */
-    function getAuthorId(): string
+    public function getAuthorId(): string
     {
         return $this->authorId;
     }
@@ -102,7 +101,7 @@ class ProjectItem implements ProjectItemInterface
      * @param string $name
      * @return void
      */
-    function setName(string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -113,7 +112,7 @@ class ProjectItem implements ProjectItemInterface
      * @param string $description
      * @return void
      */
-    function setDescription(string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -125,7 +124,7 @@ class ProjectItem implements ProjectItemInterface
      * @param string $author
      * @return void
      */
-    function setAuthor(string $author): void
+    public function setAuthor(string $author): void
     {
         $this->author = $author;
     }
@@ -136,7 +135,7 @@ class ProjectItem implements ProjectItemInterface
      * @param string $authorId
      * @return void
      */
-    function setAuthorId(string $authorId): void
+    public function setAuthorId(string $authorId): void
     {
         $this->authorId = $authorId;
     }
@@ -146,7 +145,7 @@ class ProjectItem implements ProjectItemInterface
      *
      * @return void
      */
-    function save(): void
+    public function save(): void
     {
         $attributes = [
             'name' => $this->name,

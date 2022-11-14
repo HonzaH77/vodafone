@@ -4,21 +4,20 @@ namespace App\Task;
 
 use App\Driver\MySQL\TaskItem;
 use Illuminate\Support\Collection;
-use voku\helper\ASCII;
 
 interface TaskRepositoryInterface
 {
-    function getTaskByProjectId(int $id): Collection;
+    public function getTaskByProjectId(int $id): Collection;
 
-    function getTaskStatusAndTypeByProjectId(array $projectIDs): Collection;
+    public function getTaskStatusAndTypeByProjectId(array $projectIDs): Collection;
 
-    function getTaskById(int $id): TaskItem;
+    public function getTaskById(int $id): TaskItem;
 
-    function getAllTasks(array $taskFilter): Collection;
+    public function getAllTasks(array $taskFilter): Collection;
 
-    function deleteTask(int $id): void;
+    public function deleteTask(int $id): void;
 
-    function updateTask(int $id, array $attributes): void;
+    public function updateTask(int $id, array $attributes): void;
 
-    function createTask(array $attributes): void;
+    public function createTask(array $attributes): void;
 }
