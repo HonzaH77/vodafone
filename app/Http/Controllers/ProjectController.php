@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ProcessNotification;
-use App\Models\Project;
 use App\Notifications\ProjectNotification;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,10 +23,10 @@ class ProjectController extends Controller
     /**
      * Funkce zobrazí veškeré informace k projektu s ID = $projectId.
      *
-     * @param $projectId
+     * @param int $projectId
      * @return Application|Factory|View
      */
-    public function index($projectId): Application|Factory|View
+    public function index(int $projectId): Application|Factory|View
     {
         $project = projectRepository()->getProjectById($projectId);
         $comment = commentRepository()->getCommentByProjectId($projectId);
@@ -106,12 +105,13 @@ class ProjectController extends Controller
     /**
      * Funkce zajituje úpravu projektu $project.
      *
-     * @param Project $project
+     * @param int $projectId
      * @return Application|RedirectResponse|Redirector
      */
-    public function edit(Project $project): Application|RedirectResponse|Redirector
+    public function edit(int $projectId): Application|RedirectResponse|Redirector
     {
-        if (Auth::id() == $project->user_id)
+        $project = projectRepository()->getProjectById($projectId);
+        if (Auth::id() == $project->getAuthorId())
         {
             $attributes = \request()->validate([
                 'name' => ['required', 'max:80', 'min:3'],
@@ -120,12 +120,11 @@ class ProjectController extends Controller
 
             ProcessNotification::dispatch($project);
 
-            $project = projectRepository()->getProjectById($project->id);
+            $project = projectRepository()->getProjectById($project->getId());
             $project->setName($attributes['name']);
             $project->setDescription($attributes['description']);
             $project->save();
 
-           //projectRepository()->updateProject($project->id, $attributes);
             return redirect('/projects/' . $project->getId());
         }
         return redirect('/projects');
@@ -134,12 +133,13 @@ class ProjectController extends Controller
     /**
      * Funkce zajišťuje odstarenění projektu $project.
      *
-     * @param Project $project
+     * @param int $projectId
      * @return Application|RedirectResponse|Redirector
      */
-    public function delete(Project $project): Application|RedirectResponse|Redirector
+    public function delete(int $projectId): Application|RedirectResponse|Redirector
     {
-        projectRepository()->deleteProject($project->id);
+        $project = projectRepository()->getProjectById($projectId);
+        projectRepository()->deleteProject($project->getId());
         return redirect('/projects');
     }
 }

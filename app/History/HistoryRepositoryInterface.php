@@ -6,5 +6,8 @@ use Illuminate\Support\Collection;
 
 interface HistoryRepositoryInterface
 {
-function getHistoryByTaskId(int $id): Collection;
+    public function getHistoryByTaskId(int $id): Collection;
+
+    public function store(array $attributes): void;
+
 }

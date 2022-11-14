@@ -4,10 +4,14 @@ namespace App\User;
 
 use App\Driver\MySQL\UserItem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 interface UserRepositoryInterface
 {
-    function getAllUsers(): Collection;
+    public function getAllUsers(): Collection;
 
-    function getUsernameById(string $id): UserItem;
+    public function getUsernameById(string $id): UserItem;
+
+    public function store(array $attributes): void;
+
 }

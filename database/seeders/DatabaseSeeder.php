@@ -7,6 +7,11 @@ use App\Models\Comment;
 use App\Models\History;
 use App\Models\Project;
 use App\Models\Task;
+use Database\Factories\CommentFactory;
+use Database\Factories\HistoryFactory;
+use Database\Factories\ProjectFactory;
+use Database\Factories\TaskFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
@@ -19,18 +24,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::factory(5)->create();
+        $users = UserFactory::make(15);
         foreach ($users as $user)
         {
-            $projects = Project::factory(30)->create(['user_id' => $user->id]);
+            $projects = ProjectFactory::make(15, $user);
             foreach ($projects as $project)
             {
-                $tasks = Task::factory(20)->create(['project_id' => $project->id, 'user_id' => $user->id]);
+                $tasks = TaskFactory::make(15, $project, $user);
                 foreach ($tasks as $task)
-                    History::factory(8)->create(['task_id' => $task->id]);
+                    HistoryFactory::make(10, $task);
                 foreach ($users as $user)
-                    Comment::factory(1)->create(['project_id' => $project->id, 'user_id' => $user->id]);
-
+                    CommentFactory::make(1, $project, $user);
             }
         }
 

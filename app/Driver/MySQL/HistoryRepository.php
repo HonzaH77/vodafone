@@ -23,4 +23,9 @@ class HistoryRepository implements HistoryRepositoryInterface
            return new HistoryItem($history->id, $history->state, $history->comment, $history->createdAt);
         });
     }
+
+    public function store(array $attributes): void
+    {
+        DB::table('histories')->insert($attributes);
+    }
 }

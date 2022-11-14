@@ -7,13 +7,13 @@ use Illuminate\Support\Collection;
 
 interface ProjectRepositoryInterface
 {
-    function getAllProjects(array $projectFilter): Collection;
+    public function getAllProjects(array $projectFilter): Collection;
 
-    function getProjectById(int $id): ProjectItem;
+    public function getProjectById(int $id): ProjectItem;
 
-    function updateProject(int $id, array $attributes): void;
+    public function updateProject(int $id, array $attributes): void;
 
-    function deleteProject(int $id): void;
+    public function deleteProject(int $id): void;
 
-    function createProject(array $attributes): void;
+    public function createProject(array $attributes): void;
 }

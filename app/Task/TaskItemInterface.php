@@ -5,34 +5,34 @@ namespace App\Task;
 
 interface TaskItemInterface
 {
-    function getName():string;
+    public function getName():string;
 
-    function getId():string;
+    public function getId():string;
 
-    function getAuthorId():string;
+    public function getAuthorId():string;
 
-    function getType():string;
+    public function getType():string;
 
-    function getState():string;
+    public function getState():string;
 
-    function getEndDate():string;
+    public function getEndDate():string;
 
-    function getCreatedAt():string;
+    public function getCreatedAt():string;
 
-    function getProjectId(): string;
+    public function getProjectId(): string;
 
-    function setProjectName(string $name): void;
+    public function setProjectName(string $name): void;
 
-    function getProjectName(): string;
+    public function getProjectName(): string;
 
-    function setName(string $name): void;
+    public function setName(string $name): void;
 
-    function setEndDate(string $date): void;
+    public function setEndDate(string $date): void;
 
-    function setType(string $type): void;
+    public function setType(string $type): void;
 
-    function setState(string $state): void;
+    public function setState(string $state): void;
 
-    function save():void;
+    public function save():void;
 
 }

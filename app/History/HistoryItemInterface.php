@@ -4,13 +4,12 @@ namespace App\History;
 
 interface HistoryItemInterface
 {
-    function getState(): string;
+    public function getState(): string;
 
-    function getId(): string;
+    public function getId(): string;
 
-    function getComment(): string;
+    public function getComment(): string;
 
-    function getCreatedAt(): string;
-
+    public function getCreatedAt(): string;
 
 }

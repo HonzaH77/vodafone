@@ -4,9 +4,9 @@ namespace App\Comment;
 
 interface CommentItemInterface
 {
-    function getId(): string;
-    function getText(): string;
-    function getAuthor(): string;
-    function getCreatedAt(): string;
+    public function getId(): string;
+    public function getText(): string;
+    public function getAuthor(): string;
+    public function getCreatedAt(): string;
 
 }

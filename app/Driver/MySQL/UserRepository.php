@@ -35,4 +35,9 @@ class UserRepository implements UserRepositoryInterface
 
         return new UserItem($user->id, $user->username, $user->email);
     }
+
+    public function store(array $attributes): void
+    {
+        DB::table('users')->insert($attributes);
+    }
 }

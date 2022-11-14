@@ -24,4 +24,18 @@ class AttachmentRepository implements AttachmentRepositoryInterface
             return new AttachmentItem($attachment->id, $attachment->fileName, $attachment->filePath, $attachment->createdAt);
         });
     }
+
+    public function getAttachmentById(int $id): AttachmentItem
+    {
+        $attachment = DB::table('attachments')
+            ->select('attachments.id', 'attachments.file_name AS fileName', 'attachments.file_path AS filePath', 'attachments.created_at AS createdAt')
+            ->where('attachments.id', '=', $id);
+
+        return new AttachmentItem($attachment->id, $attachment->fileName, $attachment->filePath, $attachment->createdAt);
+    }
+
+    public function store(array $attributes): void
+    {
+        DB::table('attachments')->insert($attributes);
+    }
 }

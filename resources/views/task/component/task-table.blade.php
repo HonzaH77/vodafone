@@ -17,7 +17,7 @@
             <td><a href="{{route('project', ['project' => $task->getProjectId()])}}"
                    class="vodafone_task-component-task-table__project-name">{{$task->getProjectName()}}</a></td>
             <td>
-                <a href="{{route('project', ['project' => $task->getProjectId(), 'task' => $task->getId()])}}" class="vodafone_task-component-task-table__task-name">
+                <a href="{{route('task', ['task' => $task->getId()])}}" class="vodafone_task-component-task-table__task-name">
                     {{$task->getName()}}
                 </a>
             </td>
